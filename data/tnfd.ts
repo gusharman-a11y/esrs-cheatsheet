@@ -112,14 +112,15 @@ export const TNFD_DISCLOSURES: TnfdDisclosure[] = [
 // Only DRs with substantive content overlap are included — not loose thematic links.
 export const ESRS_TO_TNFD: Record<string, { codes: string; pillar: TnfdPillar }> = {
   // ── ESRS 2: Governance ───────────────────────────────────────────────────────
-  'GOV-1':  { codes: 'G-A, G-B',    pillar: 'G'  }, // Board oversight + management role
-  'GOV-2':  { codes: 'G-A, G-B',    pillar: 'G'  }, // Info to/from board + management
-  'GOV-3':  { codes: 'G-A',         pillar: 'G'  }, // Incentive schemes → board oversight
-  'GOV-4':  { codes: 'G-C',         pillar: 'G'  }, // Due diligence → human rights / stakeholders
+  // Note: simplified ESRS renumbered GOV-2→4. GOV-1 absorbed old GOV-2 (info to/from boards).
+  'GOV-1':  { codes: 'G-A, G-B',    pillar: 'G'  }, // Board roles + absorbed info-to-board content
+  'GOV-2':  { codes: 'G-A',         pillar: 'G'  }, // Incentive schemes → board oversight (was GOV-3)
+  'GOV-3':  { codes: 'G-C',         pillar: 'G'  }, // Due diligence statement (was GOV-4)
+  'GOV-4':  { codes: 'G-A',         pillar: 'G'  }, // Risk mgmt & internal controls (was GOV-5)
 
   // ── ESRS 2: Strategy & IRO ───────────────────────────────────────────────────
   'IRO-1':  { codes: 'RI-A(i), RI-A(ii)', pillar: 'RI' }, // Materiality process: direct ops + VC
-  'SBM-1':  { codes: 'S-A',         pillar: 'S'  }, // Business model → nature-related DIROs
+  'SBM-1':  { codes: 'RI-A(ii)',    pillar: 'RI' }, // Business model + value chain → RI-A(ii)
   'SBM-2':  { codes: 'G-C',         pillar: 'G'  }, // Stakeholder engagement
   'SBM-3':  { codes: 'S-A, S-B',    pillar: 'S'  }, // Material IROs + effect on strategy
 
@@ -130,41 +131,49 @@ export const ESRS_TO_TNFD: Record<string, { codes: string; pillar: TnfdPillar }>
   'GDR-M':  { codes: 'MT-A',        pillar: 'MT' }, // Metrics → MT-A (risk/opp metrics)
 
   // ── E1: Climate change (relevant via climate–nature nexus) ───────────────────
+  // Note: simplified ESRS renumbered E1-2..9. New DR numbering:
+  //   E1-1 transition plan (unchanged), E1-2 risk ID+scenarios (new), E1-3 resilience (new),
+  //   E1-4 policies (was E1-2), E1-5 actions (was E1-3), E1-6 targets (was E1-4)
   'E1-1':   { codes: 'S-B',         pillar: 'S'  }, // Transition plan → effect on strategy
-  'E1-2':   { codes: 'RI-B',        pillar: 'RI' }, // Policies → managing climate risks
-  'E1-3':   { codes: 'S-C, RI-B',   pillar: 'S'  }, // Actions → resilience + risk management
-  'E1-4':   { codes: 'MT-C',        pillar: 'MT' }, // Climate targets
+  'E1-2':   { codes: 'RI-A(i), RI-A(ii)', pillar: 'RI' }, // Climate risk ID + scenario analysis
+  'E1-3':   { codes: 'S-C',         pillar: 'S'  }, // Climate resilience → strategy resilience
+  'E1-4':   { codes: 'RI-B',        pillar: 'RI' }, // Climate policies → managing risks (was E1-2)
+  'E1-5':   { codes: 'S-C, RI-B',   pillar: 'RI' }, // Climate actions → resilience + risk mgmt (was E1-3)
+  'E1-6':   { codes: 'MT-C',        pillar: 'MT' }, // Climate targets (was E1-4)
+  'E1-11':  { codes: 'MT-A',        pillar: 'MT' }, // Anticipated financial effects of climate risks/opps
 
   // ── E2: Pollution ────────────────────────────────────────────────────────────
   'E2-1':   { codes: 'S-B',         pillar: 'S'  }, // Policies → effect on strategy
   'E2-2':   { codes: 'S-C, RI-B',   pillar: 'RI' }, // Actions → resilience + risk management
   'E2-3':   { codes: 'MT-C',        pillar: 'MT' }, // Pollution targets
-  'E2-4':   { codes: 'MT-A, MT-B',  pillar: 'MT' }, // Pollution metrics (risks + dependencies)
+  'E2-4':   { codes: 'MT-B',        pillar: 'MT' }, // Pollution metrics → dependency/impact metrics
   'E2-5':   { codes: 'MT-B',        pillar: 'MT' }, // Substances of concern → impact metrics
 
   // ── E3: Water & Marine Resources ─────────────────────────────────────────────
   'E3-1':   { codes: 'S-B, RI-B',   pillar: 'RI' }, // Water policies → strategy + risk mgmt
   'E3-2':   { codes: 'S-C, RI-B',   pillar: 'RI' }, // Water actions → resilience + risk mgmt
   'E3-3':   { codes: 'MT-C',        pillar: 'MT' }, // Water targets
-  'E3-4':   { codes: 'MT-A, MT-B',  pillar: 'MT' }, // Water consumption (risk + dependency)
+  'E3-4':   { codes: 'MT-B',        pillar: 'MT' }, // Water consumption → dependency metrics
 
   // ── E4: Biodiversity & Ecosystems (strongest overlap; co-designed with TNFD v1.0) ──
   'E4-1':   { codes: 'S-B, S-C',    pillar: 'S'  }, // Transition plan → strategy + resilience
   'E4-2':   { codes: 'G-C, RI-B',   pillar: 'RI' }, // Policies → human rights + risk mgmt
   'E4-3':   { codes: 'S-C, RI-B',   pillar: 'RI' }, // Actions → resilience + risk management
   'E4-4':   { codes: 'MT-C',        pillar: 'MT' }, // Biodiversity targets
-  'E4-5':   { codes: 'MT-A, MT-B',  pillar: 'MT' }, // Biodiversity metrics (risk + dependency)
+  'E4-5':   { codes: 'MT-B',        pillar: 'MT' }, // Biodiversity metrics → dependency/impact metrics
 
   // ── E5: Resource use & Circular economy ──────────────────────────────────────
   'E5-1':   { codes: 'S-B',         pillar: 'S'  }, // Resource use policies → strategy
   'E5-2':   { codes: 'S-C, RI-B',   pillar: 'RI' }, // Actions → resilience + risk management
-  'E5-3':   { codes: 'S-B',         pillar: 'S'  }, // Resource use targets in strategy
-  'E5-4':   { codes: 'MT-A, MT-B',  pillar: 'MT' }, // Resource inflows metrics
+  'E5-3':   { codes: 'MT-C',        pillar: 'MT' }, // Resource use targets → MT-C
+  'E5-4':   { codes: 'MT-B',        pillar: 'MT' }, // Resource inflows → dependency metrics
   'E5-5':   { codes: 'MT-B',        pillar: 'MT' }, // Resource outflows → dependency metrics
 
   // ── S3: Affected communities (Indigenous Peoples / Local Communities → TNFD G-C) ─
+  // Note: simplified ESRS renumbered S3-4 (actions) → S3-3, S3-4 is now targets
   'S3-2':   { codes: 'G-C',         pillar: 'G'  }, // Community engagement → Gov-C
-  'S3-4':   { codes: 'S-B',         pillar: 'S'  }, // Actions on affected communities
+  'S3-3':   { codes: 'S-B',         pillar: 'S'  }, // Actions on affected communities (was S3-4)
+  'S3-4':   { codes: 'MT-C',        pillar: 'MT' }, // Targets related to communities (new in simplified)
 
   // ── G1: Business conduct ─────────────────────────────────────────────────────
   'G1-2':   { codes: 'S-B',         pillar: 'S'  }, // Supplier relationships → strategy
