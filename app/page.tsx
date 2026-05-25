@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import { DATAPOINTS } from '@/data/datapoints'
+import { ESRS_TO_TNFD } from '@/data/tnfd'
 
 const DATA_TYPES = [
   'All', 'Narrative', 'Quantitative', 'Monetary', 'Percentage', 'Identifier', 'Table/Breakdown', 'Date/Time',
@@ -21,29 +22,6 @@ const STANDARD_META: Record<string, { color: string }> = {
   'G1':     { color: 'bg-purple-600 text-white' },
 }
 
-// Maps ESRS DR codes to TNFD v1.0 recommended disclosures (nature-relevant only)
-const TNFD_MAP: Record<string, { codes: string; pillar: 'G' | 'S' | 'RI' | 'MT' }> = {
-  // ESRS 2 – governance and cross-cutting
-  'GOV-1':    { codes: 'G-1, G-2', pillar: 'G'  },
-  'GOV-2':    { codes: 'G-2',      pillar: 'G'  },
-  'GOV-3':    { codes: 'G-1',      pillar: 'G'  },
-  'GOV-4':    { codes: 'RI-3',     pillar: 'RI' },
-  'IRO-1':    { codes: 'RI-1',     pillar: 'RI' },
-  'SBM-2':    { codes: 'S-4',      pillar: 'S'  },
-  'SBM-3':    { codes: 'S-2',      pillar: 'S'  },
-  // E3 – Water & Marine (maps to TNFD water-related disclosures)
-  'E3-1':     { codes: 'RI-2',     pillar: 'RI' },
-  'E3-2':     { codes: 'RI-2',     pillar: 'RI' },
-  'E3-3':     { codes: 'MT-3',     pillar: 'MT' },
-  'E3-4':     { codes: 'MT-1',     pillar: 'MT' },
-  // E4 – Biodiversity (strongest TNFD overlap — co-designed with TNFD v1.0)
-  'E4-1':     { codes: 'S-1',      pillar: 'S'  },
-  'E4-2':     { codes: 'RI-2',     pillar: 'RI' },
-  'E4-3':     { codes: 'RI-2',     pillar: 'RI' },
-  'E4-4':     { codes: 'MT-3',     pillar: 'MT' },
-  'E4-5':     { codes: 'MT-2',     pillar: 'MT' },
-}
-
 const TNFD_PILLAR_STYLE: Record<string, string> = {
   G:  'bg-teal-600 text-white',
   S:  'bg-sky-600 text-white',
@@ -54,7 +32,7 @@ const TNFD_PILLAR_STYLE: Record<string, string> = {
 const TNFD_PILLAR_LABEL: Record<string, string> = {
   G:  'Governance',
   S:  'Strategy',
-  RI: 'Risk & Impact',
+  RI: 'Risk & Impact Mgmt',
   MT: 'Metrics & Targets',
 }
 
@@ -103,7 +81,7 @@ export default function Home() {
       if (dataType !== 'All' && dp.dataType !== dataType) return false
       if (conditional === 'Mandatory' && dp.conditional !== '') return false
       if (conditional === 'Conditional' && dp.conditional === '') return false
-      if (tnfdOnly && !TNFD_MAP[dp.dr]) return false
+      if (tnfdOnly && !ESRS_TO_TNFD[dp.dr]) return false
       if (q) {
         return (
           dp.description.toLowerCase().includes(q) ||
@@ -292,8 +270,8 @@ export default function Home() {
                         </span>
                       </td>
                       <td className="py-2.5 pr-3 align-top pt-3">
-                        {TNFD_MAP[dp.dr] && (() => {
-                          const t = TNFD_MAP[dp.dr]
+                        {ESRS_TO_TNFD[dp.dr] && (() => {
+                          const t = ESRS_TO_TNFD[dp.dr]
                           return (
                             <span
                               className={`inline-block px-1.5 py-0.5 rounded text-[11px] leading-none ${TNFD_PILLAR_STYLE[t.pillar]}`}
